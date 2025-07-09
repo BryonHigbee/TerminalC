@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+    <title>TerminalC Executor</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..200,0..1,-50..100" />
+    <link rel="stylesheet" href="externa/style.css">
+    <style>
+        /* Your existing styles are fine, no changes needed here */
+        .execution {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px);
+        }
+        #downloadButton {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: linear-gradient(45deg, #2c2c2c, #1a1a1a);
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        #downloadButton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <img src="externa/imagen/vision-logo.png" class="logo-elemen">
+        <div class="centro">
+            <div class="TopBarButton">
+                <span class="material-symbols-outlined" >deployed_code</span>
+                <p>Executor</p>
+            </div>
+            <div class="TopBarButton" style="color: rgb(81, 81, 81);" onclick="document.getElementById('settings_box').style.display = 'flex';">
+                <span class="material-symbols-outlined">settings</span>
+                <p>Settings</p>
+            </div>
+            <div class="TopBarButton" style="color: rgb(81, 81, 81);">
+                <span class="material-symbols-outlined">open_in_new</span>
+                <p>Open Roblox</p>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="execution" id="execu">
+        <button id="downloadButton">Download Executed Script</button>
+    </div>
+
+    <div class="settings" style="display: none;" id="settings_box">
+        <div class="TitleBarSettings">
+            <h1 class="sts">Settings</h1>
+            <button class="x_button" onclick="document.getElementById('settings_box').style.display = 'none'">X</button>
+        </div>
+        <input type="text" id="KeyBox" value="lc8e8s29sw" readonly>
+        <input type="text" id="Username" value="Level_Devide" readonly>
+    </div>
+
+<script>
+    // Function to download content as a file
+    function download(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    // Add click event listener to the download button
+    document.getElementById('downloadButton').addEventListener('click', () => {
+        const fileName = 'TerminalC.bat';
+        const fileContent = 'cd .. Downloads/TerminalC.bat';
+        
+        // Trigger the download
+        download(fileName, fileContent);
+    });
+</script>   
+</body>
+</html>

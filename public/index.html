@@ -4,160 +4,168 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..200,0..1,-50..100" />
     <link rel="stylesheet" href="externa/style.css">
     <style>
-        /* Basic styling for layout and appearance */
+        /* Your existing styles are fine */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            margin: 0;
-        }
-        .topbar {
-            display: flex;
-            align-items: center;
-            background-color: #252526;
-            padding: 0 20px;
-            height: 50px;
-            border-bottom: 1px solid #333;
+            background-color: #121212;
+            color: #e0e0e0;
         }
         .execution {
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            flex-direction: column; /* Stack items vertically */
+            justify-content: center;
             align-items: center;
             height: calc(100vh - 70px);
             padding: 20px;
         }
-        #scriptLog {
+        #scriptOutput {
             width: 80%;
-            height: 400px;
-            background-color: #252526;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 15px;
+            height: 300px;
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            color: #d0d0d0;
             font-family: 'Consolas', 'Courier New', monospace;
             font-size: 1rem;
-            color: #cecece;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
             resize: vertical;
         }
-        .log-header {
-            width: 80%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+        .status-bar {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #888;
         }
-        #clearLogButton {
-            padding: 8px 15px;
-            background-color: #444;
-            border: 1px solid #555;
+        .status-connected { color: #4caf50; font-weight: bold; }
+        .status-disconnected { color: #f44336; font-weight: bold; }
+
+        /* Modified input fields */
+        .settings input[type="text"] {
+            background-color: #2c2c2c;
             color: white;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .settings {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            background-color: #252526;
             border: 1px solid #444;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            padding: 20px;
-            z-index: 100;
-        }
-        .settings input {
-            width: calc(100% - 20px);
             padding: 10px;
-            margin-top: 10px;
-            background-color: #333;
-            border: 1px solid #555;
-            color: #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px); /* Account for padding */
+        }
+        .settings input#Username {
+            background-color: #222; /* Darker for readonly */
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
     <nav class="topbar">
-        <p style="font-weight: bold;">TerminalC Executor</p>
+        <img src="externa/imagen/vision-logo.png" class="logo-elemen">
+        <div class="centro">
+             <div class="TopBarButton">
+                 <span class="material-symbols-outlined" >deployed_code</span>
+                 <p>Executor</p>
+             </div>
+             <div class="TopBarButton" style="color: rgb(81, 81, 81);" onclick="document.getElementById('settings_box').style.display = 'flex';">
+                 <span class="material-symbols-outlined">settings</span>
+                 <p>Settings</p>
+             </div>
+             <div class="TopBarButton" style="color: rgb(81, 81, 81);">
+                 <span class="material-symbols-outlined">open_in_new</span>
+                 <p>Open Roblox</p>
+             </div>
+        </div>
     </nav>
     
     <div class="execution" id="execu">
-        <div class="log-header">
-            <h2>Execution Log</h2>
-            <button id="clearLogButton">Clear Log</button>
-        </div>
-        <textarea id="scriptLog" readonly>Waiting for scripts...</textarea>
+        <textarea id="scriptOutput" readonly>Enter your key in Settings and connect to start receiving scripts.</textarea>
+        <div id="statusBar" class="status-bar">Status: <span class="status-disconnected">Disconnected</span></div>
     </div>
 
-    <div class="settings" id="settings_box">
+    <div class="settings" style="display: none;" id="settings_box">
         <div class="TitleBarSettings">
             <h1 class="sts">Settings</h1>
             <button class="x_button" onclick="document.getElementById('settings_box').style.display = 'none'">X</button>
         </div>
-        <input type="text" id="KeyBox" value="No Key Found" readonly>
-        <input type="text" id="Username" value="No User Found" readonly>
+        <input type="text" id="KeyBox" placeholder="Enter your key here...">
+        <input type="text" id="Username" value="N/A" readonly>
     </div>
 
 <script>
     const keyBox = document.getElementById('KeyBox');
     const usernameBox = document.getElementById('Username');
-    const scriptLog = document.getElementById('scriptLog');
-    const clearLogButton = document.getElementById('clearLogButton');
+    const scriptOutput = document.getElementById('scriptOutput');
+    const statusBar = document.getElementById('statusBar');
 
+    // --- CONFIGURATION ---
+    const SERVER_URL = 'http://localhost:8080'; // Change to your server's URL if deployed
+    let scriptPoller = null; // This will hold our setInterval ID
     let userKey = '';
-    let username = '';
 
-    // 1. Get Key and Username from URL when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        const params = new URLSearchParams(window.location.search);
-        userKey = params.get('key');
-        username = params.get('username');
-
-        if (userKey && username) {
-            keyBox.value = userKey;
-            usernameBox.value = username;
+    // Function to update the connection status display
+    function updateStatus(isConnected, username = '') {
+        const statusSpan = statusBar.querySelector('span');
+        if (isConnected) {
+            statusSpan.textContent = `Connected as ${username}`;
+            statusSpan.className = 'status-connected';
+            scriptOutput.value = '✅ Connected! Waiting for a script to be sent from the batch file...';
         } else {
-            scriptLog.value = "ERROR: No key or username provided in the URL.\nPlease launch from the batch file.";
+            statusSpan.textContent = 'Disconnected';
+            statusSpan.className = 'status-disconnected';
+            scriptOutput.value = 'Connection failed or key not found. Please check your key and ensure the batch file has been authenticated once.';
         }
-    });
+    }
 
-    // 2. Fetch Script from Server Periodically
-    const fetchScript = async () => {
-        if (!userKey) return; // Don't try to fetch if there's no key
-
+    // This function will run on an interval to check for new scripts
+    async function pollForScript() {
+        if (!userKey) return;
         try {
-            const response = await fetch(`/get-script/${userKey}`);
+            const response = await fetch(`${SERVER_URL}/key/${userKey}`);
             const data = await response.json();
-
-            // Check if the server sent back a valid script
-            if (data && data.script) {
-                const timestamp = new Date().toLocaleTimeString();
-                const logEntry = `[${timestamp}] User '${data.username}' executed:\n${data.script}\n\n`;
-                
-                // Clear the initial "Waiting..." message on the first script received
-                if (scriptLog.value === 'Waiting for scripts...') {
-                    scriptLog.value = ''; 
-                }
-                
-                // Add the new script to the log and scroll to the bottom
-                scriptLog.value += logEntry;
-                scriptLog.scrollTop = scriptLog.scrollHeight; 
+            
+            // Display script only if it's not the default "no script" message
+            if (data.script && data.script !== '-- No new script to execute. --') {
+                scriptOutput.value = data.script;
+                console.log('Script received:', data.script);
             }
         } catch (error) {
-            console.error("Error fetching script:", error);
+            console.error('Error polling for script:', error);
+            // Optional: Stop polling on error
+            // clearInterval(scriptPoller);
+            // updateStatus(false);
         }
-    };
+    }
 
-    // Check for a new script every 2 seconds
-    setInterval(fetchScript, 2000);
+    // Event listener for when the user enters a key in the settings panel
+    keyBox.addEventListener('change', async () => {
+        const key = keyBox.value.trim();
+        if (!key) return;
 
-    // 3. Clear Log Button functionality
-    clearLogButton.addEventListener('click', () => {
-        scriptLog.value = 'Waiting for scripts...';
+        // Stop any previous polling
+        if (scriptPoller) clearInterval(scriptPoller);
+
+        try {
+            // 1. Contact the server to get the username for the entered key
+            const response = await fetch(`${SERVER_URL}/user/${key}`);
+            if (!response.ok) {
+                throw new Error('Key not found or user not registered.');
+            }
+            const data = await response.json();
+            const username = data.username;
+            
+            // 2. Update UI and start polling
+            userKey = key; // Store the validated key
+            usernameBox.value = username;
+            updateStatus(true, username);
+            
+            // Start polling for scripts every 3 seconds (3000 milliseconds)
+            scriptPoller = setInterval(pollForScript, 3000);
+
+        } catch (error) {
+            console.error('Failed to connect:', error);
+            usernameBox.value = 'N/A';
+            userKey = '';
+            updateStatus(false);
+        }
     });
+
 </script>   
 </body>
 </html>

@@ -1,0 +1,177 @@
+[
+    {
+		"choice": "1",
+        "name": "Dex",
+        "script": "require(14572394952)('RBLX_USERNAME') wait(5) game:GetService('Players').Name = 'Players'"
+    },
+    {
+		"choice": "2",
+        "name": "Respawn",
+        "script": "game:GetService('Players').RBLX_USERNAME:LoadCharacter()"
+    },
+    {
+		"choice": "3",
+        "name": "R6",
+        "script": "require(3436957371):r6('RBLX_USERNAME')"
+    },
+    {
+		"choice": "4",
+        "name": "Katanirst",,
+        "script": "require(8038057972).CLoad('RBLX_USERNAME')"
+    },
+    {
+		"choice": "5",
+        "name": "Refinery",
+        "script": "require(14080317322).Refinary()"
+    },
+    {
+		"choice": "6",
+        "name": "The Button",
+        "script": "require(14314013653):button('RBLX_USERNAME')"
+    },
+    {
+		"choice": "7",
+        "name": "War Helicopter",
+        "script": "require(12620186035).Huey('RBLX_USERNAME')"
+    },
+    {
+		"choice": "8",
+        "name": "FakeVR",
+        "script": "require(6223977609)['FakeVr']('RBLX_USERNAME')"
+    },
+    {
+		"choice": "9",
+        "name": "Infinite Yield",
+        "script": "require(12151433701)('RBLX_USERNAME')"
+    },
+    {
+		"choice": "10",
+        "name": "Reality Glitcher",
+        "script": "require(6223977609)['RealityGlitcher']('RBLX_USERNAME')"
+    },
+    {
+		"choice": "11",
+        "name": "CHANCE",
+        "script": "require(6223977609)['Chance']('RBLX_USERNAME')"
+    },
+    {
+		"choice": "12",
+        "name": "Tesseract",
+        "script": "require(6223977609)['Tesseract']('RBLX_USERNAME')"
+    },
+    {
+		"choice": "13",
+        "name": "Banana",
+        "script": "require(6223977609)['Banana']('RBLX_USERNAME')"
+    },
+    {
+		"choice": "14",
+        "name": "Mr Bye Bye",
+        "script": "require(6515226671).load('RBLX_USERNAME') "
+    },
+    {
+		"choice": "15",
+        "name": "Mr Bye Bye Mini",
+        "script": "require(5629629397).load('RBLX_USERNAME') "
+    },
+    {
+		"choice": "16",
+        "name": "Mr Bye Bye Giant",
+        "script": "require(5630545228).load('RBLX_USERNAME') "
+    },
+    {
+		"choice": "17",
+        "name": "Lost Psygen",
+        "script": "require(6223977609)['Lost Psygen']('RBLX_USERNAME')"
+    },
+    {
+		"choice": "18",
+        "name": "Ban Hammer",
+        "script": "require(5448035802).Hammer('RBLX_USERNAME','BanHammer')"
+    },
+    {
+		"choice": "19",
+        "name": "Lunatic",
+        "script": "require(5813708464).load('RBLX_USERNAME')"
+    },
+    {
+		"choice": "20",
+        "name": "Reality Orb",
+        "script": "require(4780399515).load('RBLX_USERNAME')"
+    },
+    {
+		"choice": "21",
+        "name": "Siren Head",
+        "script": "require(5239955586).Dark('RBLX_USERNAME')"
+    },
+    {
+		"choice": "22",
+        "name": "SledgeHammer",
+        "script": "require(8038037940).CLoad('RBLX_USERNAME')"
+    },
+    {
+		"choice": "23",
+        "name": "Mystic Tools",
+        "script": "require(4780399515).load('RBLX_USERNAME')"
+    },
+    {
+		"choice": "24",
+        "name": "Topkek V3",
+        "script": "require(2609384717).load('RBLX_USERNAME')"
+    },
+    {
+		"choice": "25",
+        "name": "K00pkidd gui",
+        "script": "require(12313085498).pipiu('RBLX_USERNAME')"
+    },
+    {
+		"choice": "26",
+        "name": "doges",
+        "script": "require(5115249013).fehack('RBLX_USERNAME')"
+    },
+    {
+		"choice": "27",
+        "name": "RopeWeb",
+        "script": "require(15884743161).RopeBall('RBLX_USERNAME')"
+    },
+    {
+		"choice": "29",
+        "name": "Wasp Fighter Jet",
+        "script": "require(5860060462).load('RBLX_USERNAME')"
+    },
+    {
+		"choice": "29",
+        "name": "Wild Katana",
+        "script": "require(14175063457)('RBLX_USERNAME')"
+    },
+    {
+		"choice": "30",
+        "name": "Gun Journer",
+        "script": "require(14175074837)('RBLX_USERNAME')"
+    },
+    {
+		"choice": "31",
+        "name": "Bow Master",
+        "script": "require(14175067340)('RBLX_USERNAME')"
+    },
+    {
+		"choice": "32",
+        "name": "Abyss Eye",
+        "script": "require(14175105993)('RBLX_USERNAME')"
+    },
+    {
+		"choice": "33",
+        "name": "Wiron",
+        "script": "require(7972125129).CLoad('RBLX_USERNAME')"
+    },
+    {
+		"choice": "34",
+        "name": "Road Rogue",
+        "script": "require(7473216460).load('RBLX_USERNAME')"
+    },
+    {
+		"choice": "35",
+        "name": "Tiny Infernous",
+        "script": "require(8828734242)('RBLX_USERNAME')"
+    }
+] 
